@@ -1,12 +1,6 @@
-<!-- Heading -->
-<% if (title){ %>
-    <h1><%= title %></h1>
-    <% } else {
-        res.redirect('/')
-    } %>
-    
 <!-- Message -->
 <div class="error-container">
     <img src="/images/site/error-404.jpg" alt="Error 404 Image" class="error-image" />
     <%- message %>
+    <a href="/" class="btn-home">Go Back home</a>
 </div>    
