@@ -12,11 +12,15 @@ const path = require("path")
 const env = require("dotenv").config()
 const app = express()
 const inventoryRoute = require("./routes/inventoryRoute")
-
 const baseController = require("./controllers/baseController")
 const errorRoute = require("./routes/errorRoute")
-
 const utilities = require("./utilities/index")
+
+const session= require("express-session")
+const pool= require('./database/')
+
+const accountRoute = require("./routes/accountRoute")
+
 
 
 /* ***********************
@@ -28,17 +32,43 @@ app.set("layout", "./layouts/layout") // not at views root
 
 app.use(express.static(path.join(__dirname, "public")))
 
+
+/* ***********************
+ * Middleware
+   Week4
+ * ************************/
+ app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// 
+/* ***********************
+ * Express Messages Middleware
+  Week4
+ *************************/
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+
 /* ***********************
  * Routes
  *************************/
-// Index route
-/*app.get("/", (req, res) => {
-  res.render("index", { title: "Home" })
-})*/
 app.get("/",baseController.buildHome)
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
+app.use("/account", accountRoute)
+
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
