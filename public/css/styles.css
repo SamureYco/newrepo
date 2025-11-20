@@ -156,6 +156,44 @@ footer{
   border-top:1px solid #e2e8f0;
 }
 
+/* ====== Vehicle Detail Page ====== */
+
+/* Contenedor principal de los detalles del vehículo */
+.vehicle-detail {
+  display: flex;
+  flex-direction: column; /* De inicio en una columna para móviles */
+  gap: 20px;
+  padding: 20px;
+}
+/* Imagen del vehículo */
+.vehicle-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Información del vehículo */
+.vehicle-info {
+  flex: 1;
+  padding: 20px;
+  background: var(--surface-2);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos y contenido dentro de vehicle-info */
+.vehicle-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.vehicle-info p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: var(--text);
+}
 /* ===== Responsive ===== */
 @media (max-width: 640px){
   .hero-copy{
@@ -168,4 +206,19 @@ footer{
 @media (min-width:768px){
   .columns{ grid-template-columns: 1fr 1fr; }
   .upgrade-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .vehicle-detail {
+    flex-direction: row; /* En pantallas grandes, se colocan lado a lado */
+    align-items: flex-start;
+  }
+
+  /* Asegurarnos que la imagen no se expanda demasiado */
+  .vehicle-image {
+    flex: 1;
+    margin-right: 20px; /* Añadimos un espacio entre la imagen y la info */
+  }
+
+  .vehicle-info {
+    flex: 2; /* La información ocupa el doble de espacio que la imagen */
+  }
+
 }
