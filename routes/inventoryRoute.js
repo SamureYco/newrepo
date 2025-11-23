@@ -9,5 +9,13 @@ router.get("/type/:classificationId",utilities.handleErrors(invController.buildB
 
 // Route to build inventory detail view
 router.get("/detail/:inv_id",utilities.handleErrors(invController.buildByInvId)) ;
+router.get("/", utilities.handleErrors(invController.showManagementView))
+
+router.get("/add-classification", utilities.handleErrors(invController.showAddClassificationForm));
+router.post("/add-classification", utilities.handleErrors(invController.processAddClassification));
+
+router.get("/add-inventory", utilities.handleErrors(invController.showAddInventoryForm));
+router.post("/add-inventory", utilities.handleErrors (invController.processAddInventory));
+
 
 module.exports = router;

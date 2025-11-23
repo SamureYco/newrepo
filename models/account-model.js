@@ -1,44 +1,28 @@
-const pool = require("../database")
-
-/* ***************************
- *  Get all classification data
- * ************************** */
-async function getClassifications(){
-  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
-}
-
-/* ***************************
- *  Get all inventory items and classification_name by classification_id
- * ************************** */
-async function getInventoryByClassificationId(classification_id) {
+const pool = require("../database/")
+/* *****************************
+*   Register new account
+* *************************** */
+async function registerAccount(account_firstname, account_lastname, account_email, account_password){
   try {
-    const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-      JOIN public.classification AS c 
-      ON i.classification_id = c.classification_id 
-      WHERE i.classification_id = $1`,
-      [classification_id]
-    )
-    return data.rows
+    const sql = "INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type) VALUES ($1, $2, $3, $4, 'Client') RETURNING *"
+    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password])
   } catch (error) {
-    console.error("getclassificationsbyid error " + error)
+    return error.message
   }
 }
-/* ***************************
- *  Get specific vehicle by inv_id
- * ************************** */
-async function getInventoryByInvId(inv_id) {
+/* *****************************
+* Return account data using email address
+* ***************************** */
+async function getAccountByEmail (account_email) {
   try {
-    const data = await pool.query(
-      `SELECT * FROM public.inventory WHERE inv_id = $1`,
-      [inv_id]
-    );
-    return data.rows[0];
+    const result = await pool.query(
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
+      [account_email])
+    return result.rows[0]
   } catch (error) {
-    console.error("getInventoryByInvId error: " + error);
+    return new Error("No matching email found")
   }
 }
-
 
 /* ***************************
  *  Add Classification
@@ -72,10 +56,4 @@ async function addInventoryItem(classification_id, inv_make, inv_model, inv_year
   }
 }
 
-module.exports = { 
-  getClassifications, 
-  getInventoryByClassificationId, 
-  getInventoryByInvId ,
-  addClassification,
-  addInventoryItem
-};
+module.exports = { registerAccount, getAccountByEmail,addClassification,addInventoryItem }

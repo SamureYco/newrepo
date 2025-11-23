@@ -328,6 +328,196 @@ h1 {
   color: #fff;
 }
 
+
+/***Inventory Management Page***/
+
+.management-container {
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Style the heading */
+.management-container h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #000;
+}
+
+/* Flash Message Styling */
+.flash-message {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Flexbox for buttons to align side by side */
+.management-container div {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Button (Link) Styling */
+.management-container a {
+  display: inline-block;
+  background-color: transparent;
+  color: #3B3D3D;
+  text-decoration: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid #3B3D3D;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+  width: 200px;
+}
+
+.management-container a:hover {
+  background-color: #3B3D3D;
+  color: #fff;
+}
+
+/* Manage Inventory Heading */
+.management-container h2 {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #000;
+}
+
+/* Paragraph Styling */
+.management-container p {
+  font-size: 1rem;
+  color: #3B3D3D;
+}
+
+/* Dropdown Container */
+#classificationForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dropdown Styling */
+#classificationList {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+#classificationList:hover {
+  border-color: #3B3D3D;
+}
+
+
+/*Classification Form*/
+.classification-form {
+  background-color: #f3f3f3;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 40px auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.classification-form label {
+  font-weight: bold;
+}
+
+.classification-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.classification-form button{
+  display: inline-block;
+  background-color: transparent;
+  color: #3B3D3D;
+  text-decoration: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid #3B3D3D;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.classification-form button:hover {
+  background-color: #3B3D3D;
+  color: #fff;
+}
+
+.flash-message{
+  text-align: center;
+  font-weight: bold;
+}
+
+/*Inventory Form*/
+
+.add-inventory-form {
+  background-color: #f3f3f3;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 100%; 
+  margin: 20px auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-inventory-form label {
+  font-weight: bold;
+}
+
+.add-inventory-form input,
+.add-inventory-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; 
+}
+
+.add-inventory-form button {
+  display: inline-block;
+  background-color: transparent;
+  color: #3B3D3D;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #3B3D3D;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%; 
+}
+
+.add-inventory-form button:hover {
+  background-color: #3B3D3D;
+  color: #fff;
+}
 /* ===== Responsive ===== */
 @media (max-width: 640px){
   .hero-copy{

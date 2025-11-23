@@ -1,0 +1,41 @@
+
+<main class="management-container">
+    <h1>Inventory Management</h1>
+
+    <!-- Flash Message Display -->
+    <% console.log(messages); %> 
+    <% if (Array.isArray(messages) && messages.length > 0) { %>
+        <div class="flash-message">
+            <% messages.forEach(function(message) { %>
+                <p><%= message %></p>
+            <% }); %>
+        </div>
+    <% } %>
+    
+    <div>
+        <a href="/inv/add-classification">Add New Classification</a>
+    </div>
+    <div>
+        <a href="/inv/add-inventory">Add New Inventory Item</a>
+    </div>
+
+    <!-- Manage Inventory Heading -->
+    <h2>Manage Inventory</h2>
+    <p>Select a classification from the list below to see the inventory items.</p>
+
+    <!-- Display the classification dropdown list -->
+    <form id="classificationForm">
+        <label for="classification_id">Select Classification:</label>
+        <%- classificationDropdown %> <!-- This will render the select dropdown -->
+    </form>
+
+    <!-- Empty table for displaying inventory -->
+    <table id="inventoryDisplay"></table>
+
+    <!-- Message for users with JavaScript disabled -->
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+
+    <!-- Include the JavaScript file to handle inventory selection -->
+    <script src="/js/inventoryManagement.js" defer></script>
+    <script src="/js/inventory.js" defer></script>
+</main>
