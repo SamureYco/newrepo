@@ -3,6 +3,10 @@ const router = express.Router()
 const accountController = require("../controllers/accountController")
 const utilities = require("../utilities")
 const regValidate = require('../utilities/account-validation')
+const accountValidate = require("../utilities/account-validation");
+
+// Default account route
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
 
 // Route to display login page

@@ -1,0 +1,29 @@
+<main class="management">
+  <h1>Account Management</h1>
+
+  <!-- Flash Message Display -->
+  <% if (message) { %>
+      <p class="flash-message"><%= message %></p>
+  <% } %>
+
+  <!-- Greeting based on account type -->
+  <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+
+  <!-- Update Account Information Link (Visible to All Users) -->
+  <p>
+      <a href="/account/update/<%= locals.accountData.account_id %>">Update Account Information</a>
+  </p>
+
+  <!-- Show Inventory Management link only for Admins and Employees -->
+  <% if (locals.accountData.account_type === "Admin" || locals.accountData.account_type === "Employee") { %>
+      <h3>Inventory Management</h3>
+      <p>
+          <a href="/inv/">Manage Inventory</a>
+      </p>
+  <% } %>
+
+  <% if (locals.loggedin) { %>
+        <h3>Wishlist</h3>
+        <p><a href="/account/wishlist" class="wishlist-btn">View My Wishlist</a></p>
+  <% } %>
+</main>

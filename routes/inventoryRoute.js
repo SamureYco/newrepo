@@ -17,5 +17,18 @@ router.post("/add-classification", utilities.handleErrors(invController.processA
 router.get("/add-inventory", utilities.handleErrors(invController.showAddInventoryForm));
 router.post("/add-inventory", utilities.handleErrors (invController.processAddInventory));
 
+// Route to get inventory items as JSON
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+
+//Route to Edit Inventory Item
+router.get("/edit/:inv_id",utilities.checkLogin,  utilities.handleErrors(invController.editInventoryView));
+//Route to Update Inventory Item
+router.post(
+    "/update",
+    utilities.checkLogin,
+    utilities.newInventoryRules(), 
+    utilities.checkUpdateData, 
+    utilities.handleErrors(invController.updateInventory)
+);
 
 module.exports = router;

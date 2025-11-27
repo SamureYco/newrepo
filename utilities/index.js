@@ -1,5 +1,8 @@
 const invModel = require("../models/inventory-model")
+const { body, validationResult } = require("express-validator");
 const Util = {}
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -106,6 +109,57 @@ Util.buildClassificationList = async function (classification_id = null) {
 }
 
 
+/* ******************************
+ *  Inventory Data Validation Rules
+ * ****************************** */
+Util.newInventoryRules = () => {
+  return [
+      body("classification_id").notEmpty().withMessage("Please select a classification."),
+      body("inv_make").trim().escape().notEmpty().withMessage("Please provide a make."),
+      body("inv_model").trim().escape().notEmpty().withMessage("Please provide a model."),
+      body("inv_year").isNumeric().withMessage("Please provide a valid year."),
+      body("inv_description").trim().escape().notEmpty().withMessage("Please provide a description."),
+      body("inv_image").trim().notEmpty().withMessage("Please provide an image path."),
+      body("inv_thumbnail").trim().notEmpty().withMessage("Please provide a thumbnail path."),
+      body("inv_price").isFloat({ min: 0 }).withMessage("Please provide a valid price."),
+      body("inv_miles").isInt({ min: 0 }).withMessage("Please provide valid mileage."),
+      body("inv_color").trim().escape().notEmpty().withMessage("Please provide a color."),
+  ];
+};
+
+/* ******************************
+*  Check Inventory Update Data
+* ****************************** */
+Util.checkUpdateData = async (req, res, next) => {
+  const { inv_id, classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body;
+  
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+      let nav = await Util.getNav();
+      const classificationSelect = await Util.buildClassificationList(classification_id);
+
+      return res.render("./inventory/edit-inventory", {
+          title: `Edit ${inv_make} ${inv_model}`,
+          nav,
+          classificationSelect,
+          errors: errors.array(),
+          inv_id,
+          classification_id,
+          inv_make,
+          inv_model,
+          inv_year,
+          inv_description,
+          inv_image,
+          inv_thumbnail,
+          inv_price,
+          inv_miles,
+          inv_color,
+      });
+  }
+  next();
+};
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
@@ -113,6 +167,57 @@ Util.buildClassificationList = async function (classification_id = null) {
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+ if (req.cookies.jwt) {
+  jwt.verify(
+   req.cookies.jwt,
+   process.env.ACCESS_TOKEN_SECRET,
+   function (err, accountData) {
+    if (err) {
+     req.flash("Please log in")
+     res.clearCookie("jwt")
+     return res.redirect("/account/login")
+    }
+    res.locals.accountData = accountData
+    res.locals.loggedin = 1
+    next()
+   })
+ } else {
+  next()
+ }
+}
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+}
+/* ****************************************
+ *  Check if the user is an Employee or Admin
+ **************************************** */
+Util.checkAdmin = (req, res, next) => {
+  if (!res.locals.loggedin || !res.locals.accountData) {
+    req.flash("notice", "You must be logged in to access this page.");
+    return res.redirect("/account/login");
+  }
+
+  // Only allow Employees and Admins
+  if (res.locals.accountData.account_type === "Employee" || res.locals.accountData.account_type === "Admin") {
+    next();
+  } else {
+    req.flash("notice", "Unauthorized access. Admin or Employee rights required.");
+    return res.redirect("/account/login");
+  }
+};
 
 
 module.exports = Util

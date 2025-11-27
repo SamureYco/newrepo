@@ -11,16 +11,22 @@ const expressLayouts = require("express-ejs-layouts")
 const path = require("path")
 const env = require("dotenv").config()
 const app = express()
-const inventoryRoute = require("./routes/inventoryRoute")
+
 const baseController = require("./controllers/baseController")
+
+const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
+
 const errorRoute = require("./routes/errorRoute")
 const utilities = require("./utilities/index")
 
 const session= require("express-session")
+const flash = require('connect-flash');
 const pool= require('./database/')
 const bodyParser = require("body-parser")
 
-const accountRoute = require("./routes/accountRoute")
+const cookieParser = require("cookie-parser")
+
 
 
 
@@ -48,8 +54,18 @@ app.use(express.static(path.join(__dirname, "public")))
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+/* Week5 */
+
+app.use(flash())
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
+
 
 
 // 
@@ -67,6 +83,7 @@ app.use(function(req, res, next){
 /* ***********************
  * Routes
  *************************/
+
 app.get("/",baseController.buildHome)
 
 // Inventory routes
