@@ -23,6 +23,51 @@ async function getAccountByEmail (account_email) {
     return new Error("No matching email found")
   }
 }
+/* ***************************
+ *  Get Account By ID
+ * ************************** */
+async function getAccountById(account_id) {
+  try {
+      const sql = "SELECT * FROM account WHERE account_id = $1";
+      const result = await pool.query(sql, [account_id]);
+      return result.rows[0];
+  } catch (error) {
+      console.error("Error retrieving account by ID:", error);
+      return null;
+  }
+}
+/* ***************************
+*  Update Account Information
+* ************************** */
+async function updateAccountInfo(account_id, account_firstname, account_lastname, account_email) {
+  try {
+      const sql = `
+          UPDATE account 
+          SET account_firstname = $1, account_lastname = $2, account_email = $3 
+          WHERE account_id = $4 RETURNING *`;
+      const data = await pool.query(sql, [account_firstname, account_lastname, account_email, account_id]);
+      return data.rows[0];
+  } catch (error) {
+      console.error("Error updating account:", error);
+      return null;
+  }
+}
+
+/* ***************************
+*  Update Password
+* ************************** */
+async function updatePassword(account_id, hashedPassword) {
+  try {
+      const sql = `UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *`;
+      const result = await pool.query(sql, [hashedPassword, account_id]);
+      return result.rowCount;
+  } catch (error) {
+      console.error("Password update error:", error);
+      return null;
+  }
+}
+
+
 
 /* ***************************
  *  Add Classification
@@ -58,4 +103,4 @@ async function addInventoryItem(classification_id, inv_make, inv_model, inv_year
 
 
 
-module.exports = { registerAccount, getAccountByEmail,addClassification,addInventoryItem }
+module.exports = { registerAccount, getAccountById,getAccountByEmail,addClassification,addInventoryItem,updateAccountInfo,updatePassword }

@@ -138,5 +138,32 @@ validate.checkUpdateData = async (req, res, next) => {
   next();
 };
 
+/* ***************************
+*  Validate Password Update
+* ************************** */
+validate.passwordRules = () => {
+  return [
+      body("account_password").trim().isStrongPassword({
+          minLength: 12,
+          minLowercase: 1,
+          minUppercase: 1,
+          minNumbers: 1,
+          minSymbols: 1,
+      }).withMessage("Password does not meet requirements."),
+  ];
+};
+
+/* ***************************
+*  Validate Password Update Data
+* ************************** */
+validate.checkPasswordUpdate = (req, res, next) => {
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      req.flash("notice", "Invalid password format.");
+      return res.redirect(`/account/update/${req.body.account_id}`);
+  }
+  next();
+};
+
 
 module.exports = validate
