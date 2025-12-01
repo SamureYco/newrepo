@@ -67,5 +67,55 @@ async function updatePassword(account_id, hashedPassword) {
   }
 }
 
+/* *****************************
+ *  Add Item to Wishlist
+ * ***************************** */
+async function addToWishlist(account_id, inv_id) {
+  try {
+    const sql = `
+      INSERT INTO wishlist (account_id, inv_id) 
+      VALUES ($1, $2) 
+      ON CONFLICT (account_id, inv_id) 
+      DO NOTHING RETURNING *`;
+    const result = await pool.query(sql, [account_id, inv_id]);
+    return result.rowCount;
+  } catch (error) {
+    console.error("Error adding to wishlist:", error);
+    return null;
+  }
+}
 
-module.exports = { registerAccount, getAccountById,getAccountByEmail,updateAccountInfo,updatePassword }
+/* *****************************
+ *  Remove Item from Wishlist
+ * ***************************** */
+async function removeFromWishlist(account_id, inv_id) {
+  try {
+    const sql = `DELETE FROM wishlist WHERE account_id = $1 AND inv_id = $2 RETURNING *`;
+    const result = await pool.query(sql, [account_id, inv_id]);
+    return result.rowCount; 
+  } catch (error) {
+    console.error("Error removing from wishlist:", error);
+    return null;
+  }
+}
+
+/* *****************************
+ *  Get Wishlist Items for User
+ * ***************************** */
+async function getWishlist(account_id) {
+  try {
+    const sql = `
+      SELECT i.inv_id, i.inv_make, i.inv_model, i.inv_price, i.inv_thumbnail 
+      FROM wishlist w 
+      JOIN inventory i ON w.inv_id = i.inv_id
+      WHERE w.account_id = $1`;
+    const result = await pool.query(sql, [account_id]);
+    return result.rows;
+  } catch (error) {
+    console.error("Error retrieving wishlist:", error);
+    return [];
+  }
+}
+
+
+module.exports = { registerAccount, getAccountById,getAccountByEmail,updateAccountInfo,updatePassword,addToWishlist, removeFromWishlist,getWishlist}

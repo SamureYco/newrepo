@@ -42,7 +42,6 @@ app.use(express.static(path.join(__dirname, "public")))
 
 /* ***********************
  * Middleware
-   Week4
  * ************************/
  app.use(session({
   store: new (require('connect-pg-simple')(session))({
@@ -71,7 +70,6 @@ app.use(utilities.checkJWTToken)
 // 
 /* ***********************
  * Express Messages Middleware
-  Week4
  *************************/
 app.use(require('connect-flash')())
 app.use(function(req, res, next){
@@ -79,6 +77,8 @@ app.use(function(req, res, next){
   next()
 })
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * Routes
@@ -89,12 +89,13 @@ app.get("/",baseController.buildHome)
 // Inventory routes
 app.use("/inv", inventoryRoute)
 app.use("/account", accountRoute)
-
+app.use("/", errorRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404,message: 'Sorry, we appear to have lost that page.'})
 })
+
 
 // monta /trigger-error directamente
 app.use(errorRoute) 

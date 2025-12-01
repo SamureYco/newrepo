@@ -752,6 +752,81 @@ noscript {
   color: #fff;
 }
 
+/***Wisthlist View****/
+
+/* Wishlist Container */
+.wishlist-container {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Wishlist Table */
+.wishlist-table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+/* Table Headers */
+.wishlist-table th {
+  background-color: #3B3D3D;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Table Cells */
+.wishlist-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Alternating Row Colors */
+.wishlist-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover Effect */
+.wishlist-table tr:hover {
+  background-color: #e3e3e3;
+}
+
+/* Remove Button */
+.remove-btn {
+  width: 100%;
+  background-color: transparent;
+  color: #3B3D3D;
+  text-decoration: none;
+  margin-top: 15px;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid #3B3D3D;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-btn:hover {
+  background-color: #3B3D3D;
+  color: #fff;
+}
+
+/* Flash Message */
+.flash-message {
+  color: #d9534f;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 640px){
   .hero-copy{
@@ -777,6 +852,352 @@ noscript {
 
   .vehicle-info {
     flex: 2; /* La información ocupa el doble de espacio que la imagen */
+  }
+  /* HEADER */
+  #top-header .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav ul li {
+    font-size: 1.2rem;
+  }
+
+  /* HERO */
+  #hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-image: url('/images/vehicles/delorean.jpg');
+    background-size: contain;
+    background-position: center;
+    height: 85vh;
+    padding: 0 5%;
+    position: relative;
+  }
+
+  #hero .hero-content {
+    max-width: 450px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.8); 
+    padding: 20px 20px 20px 0px;
+    border-radius: 8px;
+    position: relative;
+    left: 0%; 
+  }
+
+  #hero .hero-content h1{
+    font-size: 2.5rem;
+  }
+
+  #hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  #hero p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  /* Reviews and Upgrades */
+  
+  .reviews-upgrades-container {
+    display: flex;
+    gap: 40px; 
+    justify-content: space-between; 
+    padding: 20px 5%;
+    flex-direction: row-reverse;
+
+  }
+
+  .reviews,
+  .upgrades {
+    flex: 1; 
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  .reviews h2,
+  .upgrades h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  /* Reviews */
+  .reviews ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .reviews ul li {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  /* Upgrades */
+  .upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px;
+    justify-items: center;
+  }
+
+  .upgrades-item {
+    background-color: #3B3D3D;
+    padding: 16px 40px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .upgrades-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .upgrades-item a {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    margin-top: 8px;
+    display: block;
+  }
+
+  .upgrades-item a:hover {
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+
+  /* Inventory Items Display - */
+  #inv-display{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  #inv-display li{
+    padding: 20px 20px;
+  }
+
+  #inv-display li a img{
+    width: 350px;
+    height: 200px;
+  }
+
+  #inv-display .namePrice h2 a{
+    color: #000;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  #inv-display .namePrice h2 a:hover{
+    color: #000;
+    font-weight: 600;
+  }
+
+   /* Details View from Items Display */
+  .vehicle-detail {
+    flex-wrap: nowrap;
+  }
+
+  /* Login Page */
+  label {
+    font-size: 1.1rem;
+  }
+
+  input {
+    font-size: 1.1rem;
+  }
+
+  .login-container {
+    width: 50%;
+    max-width: 500px;
+    padding: 30px;
+    margin: 15vh auto;
+  }
+
+  .login-container button {
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+
+
+  /* Register Page */
+  .register-container {
+    max-width: 500px;
+  }
+
+  /*Inventory Form*/
+
+  .add-inventory-form {
+    max-width: 600px; 
+    margin: 40px auto; 
+    padding: 30px;
+  }
+
+  .add-inventory-form label {
+    font-size: 16px;
+  }
+
+  .add-inventory-form input,
+  .add-inventory-form select {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .add-inventory-form button {
+    width: auto; 
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+
+  /*Inventory Table*/
+    
+  /* Table Styling (Initially Empty) */
+  #inventoryDisplay {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  #inventoryDisplay th, #inventoryDisplay td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #inventoryDisplay th {
+    background-color: #3B3D3D;
+    color: white;
+  }
+  
+  #inventoryDisplay tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #inventoryDisplay tr:hover {
+    background-color: #e3e3e3;
+  }
+  
+  /*Edit Inventory View*/
+  .inventory-edit-container {
+    max-width: 600px;
+    padding: 30px;
+  }
+
+  .edit-inventory-form input,
+  .edit-inventory-form textarea,
+  .edit-inventory-form select {
+      font-size: 1.1em;
+      padding: 12px;
+  }
+
+  .edit-inventory-form button {
+      font-size: 1.1em;
+      padding: 12px;
+  }
+
+  /* Noscript Message */
+  noscript {
+    display: block;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /*Delete Confirmation View*/
+  .delete-container {
+    max-width: 50%;
+    padding: 30px;
+  }
+
+  .delete-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .delete-container input[readonly] {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .delete-container button {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+  }
+
+  /* Management View */ 
+  .management {
+    max-width: 50%;
+    padding: 30px;
+  }
+
+  .management h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Update View */ 
+  .update-container {
+    max-width: 600px;
+    padding: 30px;
+  }
+
+  .update-container h1 {
+    font-size: 2rem;
+  }
+
+  .update-form {
+    padding: 20px;
+  }
+
+  .update-form label {
+    font-size: 1.1rem;
+  }
+
+  .update-form input {
+    font-size: 1.1rem;
+  }
+
+  .update-form button {
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+
+  /*Wisthlist View*/
+
+  .wishlist-container {
+    max-width: 60%;
+    padding: 30px;
+  }
+
+  .wishlist-table th,
+  .wishlist-table td {
+    font-size: 18px;
+    padding: 12px;
+  }
+
+  .remove-btn {
+    font-size: 16px;
+    padding: 10px 15px;
   }
 
 }

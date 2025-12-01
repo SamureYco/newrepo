@@ -4,6 +4,8 @@ const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
+
+
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
@@ -63,28 +65,49 @@ Util.buildClassificationGrid = async function(data){
 /* **************************************
 * Build the detail view HTML
 * ************************************ */
-Util.buildVehicleDetail = function(vehicle) {
-  let detail = '<div class="vehicle-detail">';
-  
-  detail += '<div class="vehicle-image">';
-  detail += '<img src="' + vehicle.inv_image + '" alt="' + vehicle.inv_make + ' ' + vehicle.inv_model + '">';
-  detail += '</div>';
-  
-  detail += '<div class="vehicle-info">';
-  detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>';
-  
-  detail += '<p class="vehicle-price"><strong>Price: $' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</strong></p>';
-  
-  detail += '<p><strong>Description:</strong> ' + vehicle.inv_description + '</p>';
-  detail += '<p><strong>Color:</strong> ' + vehicle.inv_color + '</p>';
-  detail += '<p><strong>Miles:</strong> ' + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</p>';
-  detail += '<p><strong>Year:</strong> ' + vehicle.inv_year + '</p>';
-  
-  detail += '</div>';
-  detail += '</div>';
-  
-  return detail;
+Util.buildVehicleDetail = function(data,isInWishlist, loggedin ) {
+if (!data) return "<p>Vehicle not found.</p>";
+
+  const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+  const price = formatter.format(data.inv_price);
+  const mileage = new Intl.NumberFormat('en-US').format(data.inv_miles);
+
+  // Wishlist button (only show if user is logged in)
+  let wishlistButton = "";
+  if (loggedin) {
+    if (!isInWishlist) {
+      wishlistButton = `
+        <form action="/account/wishlist/add" method="POST">
+          <input type="hidden" name="inv_id" value="${data.inv_id}">
+          <button type="submit" class="btn">Add to Wishlist</button>
+        </form>`;
+    } else {
+      wishlistButton = `
+        <form action="/account/wishlist/remove" method="POST">
+          <input type="hidden" name="inv_id" value="${data.inv_id}">
+          <button type="submit" class="btn">Remove from Wishlist</button>
+        </form>`;
+    }
+  }
+
+  return `
+    <div class="vehicle-detail">
+      <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${data.inv_model}">
+      <div class="vehicle-info">
+        <h1>${data.inv_make} ${data.inv_model}</h1>
+        <p><strong>Price:</strong> ${price}</p>
+        <p><strong>Year:</strong> ${data.inv_year}</p>
+        <p><strong>Mileage:</strong> ${mileage} miles</p>
+        <p><strong>Description:</strong> ${data.inv_description}</p>
+        <div class="vehicle-actions">
+          ${wishlistButton}
+      </div>
+      </div>
+    </div>
+  `;
 };
+
+
 
 /* ***************************
  * Build Inventory View
@@ -190,6 +213,8 @@ Util.checkJWTToken = (req, res, next) => {
   next()
  }
 }
+
+
 /* ****************************************
  *  Check Login
  * ************************************ */

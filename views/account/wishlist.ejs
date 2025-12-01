@@ -1,0 +1,31 @@
+<main class="wishlist-container">
+    <h1>My Wishlist</h1>
+
+    <% if (!wishlistItems || wishlistItems.length === 0) { %>
+        <p>Your wishlist is empty.</p>
+    <% } else { %>
+        <table class="wishlist-table">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% wishlistItems.forEach(item => { %>
+                    <tr>
+                        <td><%= item.inv_make %> <%= item.inv_model %></td>
+                        <td>$<%= item.inv_price.toLocaleString() %></td>
+                        <td>
+                            <form action="/account/wishlist/remove" method="POST">
+                                <input type="hidden" name="inv_id" value="<%= item.inv_id %>">
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</main>
